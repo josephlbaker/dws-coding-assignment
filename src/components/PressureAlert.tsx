@@ -1,4 +1,3 @@
-// components/PressureAlert.tsx
 "use client";
 
 import {

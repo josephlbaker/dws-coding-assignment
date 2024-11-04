@@ -1,4 +1,5 @@
-"use clinet";
+"use client";
+
 import { Box, Typography } from "@mui/material";
 import {
   BarChart,
@@ -18,11 +19,9 @@ interface HistogramProps {
 }
 
 function HistogramPage({ data }: HistogramProps) {
-  // Prepare data for histogram
   const tubingPressureValues = data.map((item) => item.tubingPressure);
   const casingPressureValues = data.map((item) => item.casingPressure);
 
-  // Function to create histogram data
   const createHistogramData = (values: number[], bins: number) => {
     const max = Math.max(...values);
     const min = Math.min(...values);
@@ -56,8 +55,8 @@ function HistogramPage({ data }: HistogramProps) {
             dataKey="bin"
             label={{
               value: "Pressure Range (psi)",
-              position: "insideBottom",
-              dy: 10,
+              position: "insideLeft",
+              dy: 15,
             }}
           />
           <YAxis
@@ -80,8 +79,8 @@ function HistogramPage({ data }: HistogramProps) {
             dataKey="bin"
             label={{
               value: "Pressure Range (psi)",
-              position: "insideBottom",
-              dy: 10,
+              position: "insideLeft",
+              dy: 15,
             }}
           />
           <YAxis

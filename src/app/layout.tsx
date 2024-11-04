@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Link from "next/link";
+import Image from "next/image";
 import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 
 const geistSans = localFont({
@@ -26,10 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/line-chart", label: "Line Chart" },
-    { href: "/bar-chart", label: "Bar Chart" },
-    { href: "/table", label: "Table" },
+    { href: "/", label: "Demo Company" },
+    { href: "/about", label: "About" },
   ];
 
   return (
@@ -38,22 +37,29 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AppBar position="static">
-          <Toolbar>
-            <Box sx={{ flexGrow: 1, display: "flex", gap: 2 }}>
+          <Toolbar sx={{ justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Image
+                src="/demo-co.png"
+                alt="Company Logo"
+                width={40}
+                height={40}
+                style={{ cursor: "pointer" }}
+              />
               {links.map((link) => (
-                <Typography
-                  key={link.href}
-                  variant="h6"
-                  component={Link}
-                  href={link.href}
-                  sx={{
-                    color: "inherit",
-                    textDecoration: "none",
-                    fontWeight: 500,
-                  }}
-                >
-                  {link.label}
-                </Typography>
+                <Link key={link.href} href={link.href} passHref>
+                  <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{
+                      marginLeft: 2,
+                      color: "inherit",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {link.label}
+                  </Typography>
+                </Link>
               ))}
             </Box>
           </Toolbar>

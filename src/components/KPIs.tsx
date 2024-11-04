@@ -1,4 +1,3 @@
-// components/KPIs.tsx
 "use client";
 
 import { IoTData } from "@/types/data";
@@ -6,10 +5,10 @@ import {
   Card,
   CardContent,
   Typography,
-  Grid,
   Box,
   Avatar,
 } from "@mui/material";
+import Grid from '@mui/material/Grid2';
 import { ReactElement } from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DepthIcon from "@mui/icons-material/ExpandMore";
@@ -78,7 +77,7 @@ export default function KPIs({ data }: KPIProps) {
   return (
     <Grid container spacing={2}>
       {kpis.map((kpi, index) => (
-        <Grid item xs={12} sm={6} key={index}>
+        <Grid size={{ xs: 12, sm: 6 }} key={index}>
           <Card elevation={3}>
             <CardContent sx={{ display: "flex", alignItems: "center" }}>
               <Avatar sx={{ marginRight: 2, backgroundColor: "#1976d2" }}>
