@@ -1,14 +1,31 @@
+// components/KPIs.tsx
 "use client";
+
 import { IoTData } from "@/types/data";
-import { Paper, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid";
-import React from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  Box,
+  Avatar,
+} from "@mui/material";
+import { ReactElement } from "react";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import DepthIcon from "@mui/icons-material/ExpandMore";
+import PressureIcon from "@mui/icons-material/Speed";
 
 interface KPIProps {
   data: IoTData;
 }
 
-function KPIs({ data }: KPIProps) {
+interface KPIItem {
+  label: string;
+  value: string;
+  icon: ReactElement;
+}
+
+export default function KPIs({ data }: KPIProps) {
   const timestamps = data.data[0];
   const depthValues = data.data[1];
   const tubingPressureValues = data.data[2];
@@ -25,37 +42,58 @@ function KPIs({ data }: KPIProps) {
   const minDepth = Math.min(...depthValues);
   const maxDepth = Math.max(...depthValues);
 
-  const kpis = [
-    { label: "Start Time", value: new Date(startTime * 1000).toLocaleString() },
-    { label: "End Time", value: new Date(endTime * 1000).toLocaleString() },
-    { label: "Average Depth", value: `${averageDepth.toFixed(2)} feet` },
-    { label: "Depth Range", value: `${minDepth} - ${maxDepth} feet` },
+  const kpis: KPIItem[] = [
     {
-      label: "Average Tubing Pressure",
-      value: `${averageTubingPressure.toFixed(2)} psi`,
+      label: "Start Time",
+      value: new Date(startTime * 1000).toLocaleString(),
+      icon: <AccessTimeIcon />,
     },
     {
-      label: "Average Casing Pressure",
+      label: "End Time",
+      value: new Date(endTime * 1000).toLocaleString(),
+      icon: <AccessTimeIcon />,
+    },
+    {
+      label: "Average Depth",
+      value: `${averageDepth.toFixed(2)} feet`,
+      icon: <DepthIcon />,
+    },
+    {
+      label: "Depth Range",
+      value: `${minDepth} - ${maxDepth} feet`,
+      icon: <DepthIcon />,
+    },
+    {
+      label: "Avg Tubing Pressure",
+      value: `${averageTubingPressure.toFixed(2)} psi`,
+      icon: <PressureIcon />,
+    },
+    {
+      label: "Avg Casing Pressure",
       value: `${averageCasingPressure.toFixed(2)} psi`,
+      icon: <PressureIcon />,
     },
   ];
 
   return (
-    <Paper elevation={3} sx={{ padding: 3, marginTop: 2 }}>
-      <Typography variant="h5" component="h2" gutterBottom>
-        Key Performance Indicators (KPIs)
-      </Typography>
-      <Grid container spacing={2}>
-        {kpis.map((kpi, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Typography variant="body1">
-              <strong>{kpi.label}:</strong> {kpi.value}
-            </Typography>
-          </Grid>
-        ))}
-      </Grid>
-    </Paper>
+    <Grid container spacing={2}>
+      {kpis.map((kpi, index) => (
+        <Grid item xs={12} sm={6} key={index}>
+          <Card elevation={3}>
+            <CardContent sx={{ display: "flex", alignItems: "center" }}>
+              <Avatar sx={{ marginRight: 2, backgroundColor: "#1976d2" }}>
+                {kpi.icon}
+              </Avatar>
+              <Box>
+                <Typography variant="subtitle1" color="textSecondary">
+                  {kpi.label}
+                </Typography>
+                <Typography variant="h6">{kpi.value}</Typography>
+              </Box>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   );
 }
-
-export default React.memo(KPIs);

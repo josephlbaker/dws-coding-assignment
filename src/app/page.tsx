@@ -1,13 +1,14 @@
 "use client";
-import HistogramPage from "@/components/HistogramPage";
+
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import KPIs from "@/components/KPIs";
 import LineChartPage from "@/components/LineChartPage";
 import PressureAlert from "@/components/PressureAlert";
-import ScatterPlotPage from "@/components/ScatterPlotPage";
+import ScatterPlotPage from "@/components/ScatterPlotPage"; // If using Scatter Plot
+import HistogramPage from "@/components/HistogramPage"; // If using Histogram
+import { ChartDataItem, IoTData } from "@/types/data";
+import { Box, Typography, Tabs, Tab, Paper, Grid } from "@mui/material";
 import { a11yProps, TabPanel } from "@/components/TabComponents";
-import { IoTData } from "@/types/data";
-import { Box, Typography, Tabs, Tab, Paper } from "@mui/material";
-import { useCallback, useEffect, useMemo, useState } from "react";
 
 export default function Home() {
   const [iotData, setIoTData] = useState<IoTData | null>(null);
@@ -39,7 +40,6 @@ export default function Home() {
     }));
   }, [iotData]);
 
-  // Handle tab change
   const handleTabChange = useCallback(
     (event: React.SyntheticEvent, newValue: number) => {
       setTabIndex(newValue);
@@ -58,18 +58,23 @@ export default function Home() {
         IoT Dashboard Overview
       </Typography>
 
-      {/* Alerts Section */}
-      <PressureAlert data={chartData} />
-
-      {/* KPIs Section */}
-      <KPIs data={iotData} />
+      {/* KPI and Alert Section */}
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={8}>
+          <KPIs data={iotData} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <PressureAlert data={chartData} />
+        </Grid>
+      </Grid>
 
       {/* Charts Section */}
-      <Paper sx={{ marginTop: 4 }}>
+      <Paper sx={{ marginTop: 4, padding: 2 }}>
         <Tabs value={tabIndex} onChange={handleTabChange}>
           <Tab label="Line Charts" {...a11yProps(0)} />
           <Tab label="Scatter Plots" {...a11yProps(1)} />
-          <Tab label="Histograms" {...a11yProps(2)} />
+          <Tab label="Histogram" {...a11yProps(2)} />
+          {/* Add more tabs if needed */}
         </Tabs>
         <TabPanel value={tabIndex} index={0}>
           <LineChartPage data={chartData} />
@@ -80,6 +85,7 @@ export default function Home() {
         <TabPanel value={tabIndex} index={2}>
           <HistogramPage data={chartData} />
         </TabPanel>
+        {/* Additional TabPanels for other charts */}
       </Paper>
     </Box>
   );
